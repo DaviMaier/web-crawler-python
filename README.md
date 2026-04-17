@@ -123,7 +123,7 @@ Isso permite:
 
 # 📌 Use Case
 
-Applied to migrate over 10 years of content from a legacy institutional website into a modern system.
+Aplicado na migração de mais de 10 anos de conteúdo de um site institucional legado para um sistema moderno.
 
 ---
 
