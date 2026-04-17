@@ -1,3 +1,5 @@
+*.log
+
 site_completo/
 
 # Byte-compiled / optimized / DLL files
