@@ -1,6 +1,6 @@
 # 🕷️ Web Crawler - Content Extraction System
 
-Sistema de web scraping desenvolvido em Python para extração, organização e backup de conteúdos de sites institucionais.
+Sistema de web crawler desenvolvido em Python para extração, organização e backup de conteúdos de sites institucionais.
 
 ## 📌 Descrição
 
@@ -63,7 +63,7 @@ pip install requests beautifulsoup4
 ### 2. Executar o crawler
 
 ```bash
-python scraper.py
+python crawler.py
 ```
 
 ---
