@@ -100,7 +100,7 @@ pip install -r requirements.txt
 ## 3. Executar crawler
 
 ```
-python scraper.py
+python crawler.py
 ```
 
 ---
