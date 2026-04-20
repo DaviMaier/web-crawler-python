@@ -1,167 +1,126 @@
+# 🕷️ Web Crawler - Content Extraction System
 
-# 🕷️ Web Content Crawler (Python)
+Sistema de web scraping desenvolvido em Python para extração, organização e backup de conteúdos de sites institucionais.
 
-Crawler desenvolvido em Python para **extração estruturada de conteúdo web**, com suporte a navegação automática (crawling), persistência de progresso e coleta de dados reutilizáveis para migração ou reconstrução de sistemas.
+## 📌 Descrição
 
-> Projeto aplicado na prática para migração de conteúdo de um site institucional com mais de 10 anos de dados.
+Este projeto implementa um crawler baseado em estratégia BFS (Breadth-First Search), capaz de percorrer páginas internas de um site, extrair conteúdos relevantes e armazená-los localmente de forma estruturada.
 
----
-
-# 🎯 Objetivo
-
-Construir uma ferramenta capaz de:
-
-* Navegar automaticamente por um site (crawler)
-* Identificar e extrair conteúdos relevantes
-* Coletar textos completos das páginas
-* Baixar imagens associadas
-* Gerar uma base de dados estruturada (JSON)
-* Permitir continuidade de execução sem perda de progresso
+Foi aplicado na migração de mais de 10 anos de conteúdo de um site institucional legado para uma nova plataforma moderna.
 
 ---
 
-# ✨ Features
+## 🚀 Funcionalidades
 
-* BFS-based crawling strategy
-* Persistent state (resume anytime)
-* Automatic image downloading
-* Structured JSON output
-* Duplicate prevention
-* Content extraction with fallback strategies
+* 🔍 Crawling automático de páginas internas
+* 🧠 Estratégia BFS para navegação eficiente
+* 💾 Persistência de progresso (retomada automática)
+* 📄 Extração de conteúdo HTML e texto limpo
+* 🖼️ Download automático de imagens
+* 🔗 Descoberta dinâmica de links internos
+* ⚡ Prioridade para páginas de conteúdo (`view=article`)
+* 📊 Métricas em tempo real:
 
----
-
-# 🧠 Abordagem Técnica
-
-O sistema utiliza uma estratégia de **crawling em largura (BFS)**:
-
-1. Inicializa com uma URL base
-2. Percorre links internos do domínio
-3. Prioriza páginas de conteúdo (ex: artigos)
-4. Evita revisitas com controle de estado
-5. Persiste dados continuamente em disco
+  * Progresso (%)
+  * Páginas coletadas
+  * Páginas por segundo (pps)
+  * Tempo estimado restante
 
 ---
 
-# ⚙️ Tecnologias Utilizadas
-
-* Python 3
-* `requests` → requisições HTTP
-* `beautifulsoup4` → parsing HTML
-* `json` → armazenamento estruturado
-* `hashlib` → geração de identificadores únicos
-
----
-
-# 📂 Estrutura Gerada
+## 🏗️ Estrutura do Projeto
 
 ```
 site_completo/
- ├── html/              # páginas salvas em HTML
- ├── imagens/           # imagens baixadas
- ├── dados.json         # conteúdo estruturado
- ├── visitados.json     # controle de páginas visitadas
- └── fila.json          # fila de URLs pendentes
+│
+├── html/              # Páginas HTML extraídas
+├── imagens/           # Imagens baixadas
+├── dados.json         # Conteúdo estruturado
+├── fila.json          # Fila de URLs pendentes
+└── visitados.json     # URLs já processadas
 ```
 
 ---
 
-# 📊 Estrutura dos Dados
+## ⚙️ Tecnologias Utilizadas
 
-Cada página processada gera um objeto:
+* Python 3
+* Requests
+* BeautifulSoup4
+* JSON
+* Hashlib
 
-```json
-{
-  "titulo": "Título da página",
-  "url": "https://...",
-  "arquivo": "site_completo/html/arquivo.html",
-  "conteudo": "Texto completo extraído...",
-  "imagens": ["caminho/da/imagem.jpg"]
-}
+---
+
+## ▶️ Como Executar
+
+### 1. Instalar dependências
+
+```bash
+pip install requests beautifulsoup4
+```
+
+### 2. Executar o crawler
+
+```bash
+python scraper.py
 ```
 
 ---
 
-# ▶️ Execução
+## 🔁 Retomada Automática
 
-## 1. Clonar repositório
+O sistema salva o progresso automaticamente:
 
-```
-git clone <SEU_REPOSITORIO>
-cd web-crawler-python
-```
+* `visitados.json` → páginas já processadas
+* `fila.json` → próximas páginas
+* `dados.json` → conteúdos extraídos
 
-## 2. Instalar dependências
+Permite interromper e continuar sem perda de dados.
 
-```
-pip install -r requirements.txt
-```
+---
 
-## 3. Executar crawler
+## 📊 Exemplo de Saída
 
-```
-python crawler.py
+```bash
+[120/5000] (2.40%) - 1.85 pág/s - 65.2 min - https://...
 ```
 
 ---
 
-# 🔄 Persistência de Estado
+## 🎯 Caso de Uso
 
-O crawler salva automaticamente o progresso em:
+Este crawler foi utilizado para:
 
-* `visitados.json`
-* `fila.json`
-* `dados.json`
-
-Isso permite:
-
-* interrupção manual (`Ctrl + C`)
-* retomada exata da execução posteriormente
-* execução distribuída em diferentes sessões
+* Backup de conteúdo de site legado
+* Extração de artigos institucionais
+* Preparação de dados para migração de plataforma
+* Preservação de conteúdo histórico
 
 ---
 
-# 📌 Use Case
+## ⚠️ Limitações
 
-Aplicado na migração de mais de 10 anos de conteúdo de um site institucional legado para um sistema moderno.
-
----
-
-# 🧩 Características Técnicas
-
-* Evita páginas duplicadas
-* Geração de nomes únicos via hash (baseado na URL)
-* Filtro de links irrelevantes (ex: versões print/pdf)
-* Extração resiliente de conteúdo (múltiplos seletores HTML)
-* Download automático de imagens
-* Estrutura pronta para integração com outros sistemas
-
----
-
-# ⚠️ Limitações
-
+* Não acessa conteúdos protegidos por login
+* Não extrai banco de dados diretamente
 * Dependente da estrutura HTML do site
-* Não executa JavaScript (não suporta SPA/React nativamente)
-* Pode coletar páginas irrelevantes sem pós-processamento
 
 ---
 
-# 🚀 Possíveis Extensões
+## 📌 Observações
 
-* Integração com banco de dados (PostgreSQL, MongoDB)
-* Uso de embeddings para busca semântica
-* Interface web para visualização dos dados
-* Suporte a scraping com JavaScript (Selenium/Playwright)
-* Pipeline de limpeza e categorização automática
+* O projeto pode ser adaptado para outros sites alterando a URL base
+* Recomenda-se validar a estrutura do site antes da execução
+* Ideal para sites com conteúdo público e estruturado
 
 ---
 
-# 👨‍💻 Autor
+## 👨‍💻 Autor
 
-Desenvolvido por **Davi Maier Prestes da Silva** como solução para extração, migração e reestruturação de conteúdo web em larga escala.
+Desenvolvido por Davi Maier Prestes da Silva
 
 ---
 
-# 📄 Licença
+## 📄 Licença
 
-Uso livre para fins educacionais e projetos pessoais.
+Este projeto é livre para uso educacional e adaptação.
