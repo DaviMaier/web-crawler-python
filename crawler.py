@@ -7,6 +7,8 @@ import time
 import hashlib
 from urllib.parse import urljoin, urlparse
 
+inicio = time.time()
+
 BASE_URL = "https://ippf.org.br"
 
 HEADERS = {
@@ -100,7 +102,7 @@ def extrair_conteudo(soup):
     return conteudo
 
 # ---------------------------
-# PEGAR TÍTULO MELHOR
+# PEGAR TÍTULO
 # ---------------------------
 def extrair_titulo(soup):
     if soup.find("h1"):
@@ -118,8 +120,6 @@ def extrair_titulo(soup):
 # PROCESSAR PÁGINA
 # ---------------------------
 def processar_pagina(url):
-    print("Visitando:", url)
-
     try:
         res = requests.get(url, headers=HEADERS, timeout=10)
 
@@ -156,7 +156,28 @@ def processar_pagina(url):
             "imagens": imagens
         })
 
-        # novos links
+        # ---------------------------
+        # 📊 PROGRESSO
+        # ---------------------------
+        tempo_decorrido = time.time() - inicio
+        paginas = len(dados)
+
+        if paginas > 0:
+            tempo_por_pagina = tempo_decorrido / paginas
+            restante = LIMITE_PAGINAS - paginas
+            tempo_restante = restante * tempo_por_pagina
+            pps = paginas / tempo_decorrido if tempo_decorrido > 0 else 0
+        else:
+            tempo_restante = 0
+            pps = 0
+
+        progresso = (paginas / LIMITE_PAGINAS) * 100
+
+        print(f"[{paginas}/{LIMITE_PAGINAS}] ({progresso:.2f}%) - {pps:.2f} pág/s - {tempo_restante/60:.1f} min - {url}")
+
+        # ---------------------------
+        # NOVOS LINKS
+        # ---------------------------
         for a in soup.find_all("a", href=True):
             link = urljoin(url, a["href"])
 
