@@ -175,7 +175,7 @@ def processar_pagina(url):
 # ---------------------------
 # EXECUÇÃO
 # ---------------------------
-LIMITE_PAGINAS = 1000
+LIMITE_PAGINAS = 5000
 
 while fila and len(visitados) < LIMITE_PAGINAS:
     url = fila.pop(0)
